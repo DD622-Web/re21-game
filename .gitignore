@@ -1,0 +1,6 @@
+# 部署时不需要上传的内容
+node_modules/
+npm-debug.log*
+.DS_Store
+cloudflared.exe
+*.zip

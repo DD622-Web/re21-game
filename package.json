@@ -1,0 +1,16 @@
+{
+  "name": "re21",
+  "version": "1.0.0",
+  "description": "基于《生化危机7》DLC「21」玩法制作的网页小游戏，支持单人 vs AI 与联机对战",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "license": "MIT"
+}

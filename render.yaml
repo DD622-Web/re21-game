@@ -1,0 +1,14 @@
+# Render Blueprint 配置文件
+# 在 Render 上选择 "New" → "Blueprint" 连接本仓库即可一键部署
+# 部署后会得到一个固定地址，例如 https://re21-game.onrender.com
+services:
+  - type: web
+    name: re21-game
+    runtime: node
+    plan: free                 # 免费套餐，无需信用卡；支持 WebSocket
+    region: singapore          # 离国内更近，延迟更低；也可改 oregon / frankfurt
+    branch: main               # 部署的分支名（GitHub 默认主干可能是 main 或 master）
+    buildCommand: npm install  # 安装 ws 等依赖
+    startCommand: npm start    # 运行 node server.js
+    healthCheckPath: /         # 首页返回 200 即视为健康
+    envVars: []                # 无需任何环境变量，服务端自动读取 PORT
