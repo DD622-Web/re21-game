@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RE7 · 21 点 — 生化危机7 卡牌小游戏</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===== 开始菜单 ===== -->
+    <section id="menu" class="screen">
+      <div class="menu-card">
+        <h1 class="logo">RE7 · <span>21 点</span></h1>
+        <p class="tagline">致敬《生化危机7》DLC「21」的扭曲二十一点</p>
+
+        <div class="mode-block">
+          <button class="mode-btn primary" id="btnSolo">🤖 单人 · 对战 AI</button>
+          <button class="mode-btn" id="btnOnline">🌐 联机 · 和朋友对战</button>
+        </div>
+
+        <!-- 联机面板 -->
+        <div id="onlinePanel" class="online-panel hidden">
+          <label class="field">
+            <span>你的昵称</span>
+            <input id="nameInput" type="text" maxlength="12" placeholder="例如：Lucas" value="玩家" />
+          </label>
+          <label class="field">
+            <span>联机服务器地址（可留空：默认连当前站点；若前端部署在别处，请填你的服务器地址，如 <code>wss://你的域名</code>）</span>
+            <input id="serverInput" type="text" placeholder="默认用当前站点" />
+          </label>
+          <div class="online-row">
+            <button class="mini-btn" id="btnCreate">创建房间</button>
+            <span class="divider">或</span>
+            <input id="codeInput" type="text" maxlength="4" placeholder="房间码" />
+            <button class="mini-btn" id="btnJoin">加入</button>
+          </div>
+          <p id="onlineMsg" class="online-msg"></p>
+        </div>
+
+        <details class="rules">
+          <summary>玩法说明</summary>
+          <ul>
+            <li>双方共用一副 <b>1~11</b> 的牌（无重复），每人一张暗牌 + 若干明牌。</li>
+            <li>轮流出牌：<b>要牌</b> 或 <b>停牌</b>，目标凑到最接近 <b>21</b> 且不爆。</li>
+            <li>双方都爆则点数较小者胜；平局双方各扣 <b>1 根手指</b>。</li>
+            <li><b>王牌卡</b> 可在不消耗回合时改变局势（窥探、退还、抽高、加二、冲24、爱敌、交换、加倍）。</li>
+            <li>每输<b>一手</b>扣 1 根手指。<b>每局</b>双方从 5 根手指开始，谁先输光 5 根谁就输掉本局；点「再来一局」会重新发 5 根手指。</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== 游戏界面 ===== -->
+    <section id="game" class="screen hidden">
+      <header id="topbar">
+        <span id="modeLabel" class="mode-label">单人</span>
+        <span id="roomInfo" class="room-info hidden"></span>
+        <span id="statusDot" class="status-dot" title="连接状态"></span>
+        <button id="btnQuit" class="quit-btn">退出</button>
+      </header>
+
+      <div id="opp" class="player-panel opp"></div>
+
+      <div id="center" class="center">
+        <div id="pool" class="pool"></div>
+        <div id="turnInfo" class="turn-info"></div>
+        <div id="log" class="log"></div>
+      </div>
+
+      <div id="me" class="player-panel me"></div>
+
+      <div id="actions" class="actions"></div>
+
+      <div id="chat" class="chat hidden">
+        <div id="chatLog" class="chat-log"></div>
+        <div class="chat-input">
+          <input id="chatText" type="text" maxlength="200" placeholder="说点什么…" />
+          <button id="btnSend" class="mini-btn">发送</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 开场说明弹窗 ===== -->
+    <div id="introModal" class="modal hidden">
+      <div class="modal-card">
+        <h2>RE7 · 21 点</h2>
+        <p class="modal-sub">源自《生化危机7》DLC「21」的扭曲二十一点</p>
+        <ul class="modal-rules">
+          <li>双方共用一副 <b>1~11</b> 的牌（无重复），每人一张暗牌 + 若干明牌。</li>
+          <li>轮流出牌：<b>要牌</b> 或 <b>停牌</b>，目标凑到最接近 <b>21</b> 且不爆。</li>
+          <li>双方都爆则点数较小者胜；平局双方各扣 <b>1 根手指</b>。</li>
+          <li><b>王牌卡</b> 可在不消耗回合时改变局势（窥探 / 退还 / 抽高 / 加二 / 冲24 / 爱敌 / 交换 / 加倍）。</li>
+          <li>每输<b>一手</b>扣 1 根手指。<b>每局</b>双方从 5 根手指开始，谁先输光 5 根谁就输掉本局；点「再来一局」会重新发 5 根手指。</li>
+        </ul>
+        <button id="btnStartGame" class="mode-btn primary">开始游戏</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 掉手指 / 胜负 浮层提示 -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- 王牌卡特效浮层 -->
+  <div id="trumpFx" class="trump-fx">
+    <div class="trump-backdrop"></div>
+    <div class="trump-ring"></div>
+    <div class="trump-ring r2"></div>
+    <div class="trump-label">
+      <span class="tl-who"></span>
+      <span class="tl-name"></span>
+      <span class="tl-sub">王牌发动</span>
+      <span class="tl-desc"></span>
+    </div>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+/* ===== RE7 · 21 点 主题：极简 / 低饱和 / 米色 + 浅蓝 + 莫兰迪点缀 ===== */
+:root{
+  --bg:#F5F1E8;          /* 暖米色 */
+  --panel:#FBF8F2;       /* 更浅的奶油 */
+  --panel-2:#EFE9DD;     /* 浅卡其 */
+  --ink:#4A4640;         /* 柔和深褐灰（正文） */
+  --ink-soft:#8A847A;    /* 次要文字 */
+  --blue:#A9C7DB;        /* 浅蓝 */
+  --blue-deep:#6E97B0;   /* 深一点的蓝 */
+  --teal:#8FB8A8;        /* 莫兰迪青 */
+  --rose:#C9A0A0;        /* 莫兰迪玫瑰 */
+  --gold:#D9C18F;        /* 莫兰迪金 */
+  --danger:#C98A8A;      /* 柔和红（失败） */
+  --line:#E3DCCC;        /* 分隔线 */
+  --shadow:0 8px 24px rgba(74,70,64,.08);
+  --shadow-sm:0 3px 10px rgba(74,70,64,.06);
+  --radius:16px;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #EAF1F4 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, #F0E7D6 0%, transparent 55%),
+    var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px;}
+.hidden{display:none !important;}
+
+/* ---------- 菜单 ---------- */
+.menu-card{
+  margin-top:6vh;width:min(440px,92vw);background:var(--panel);
+  border-radius:24px;padding:34px 30px;box-shadow:var(--shadow);
+  border:1px solid var(--line);
+}
+.logo{font-size:34px;font-weight:800;letter-spacing:1px;margin:0;text-align:center;color:var(--ink);}
+.logo span{color:var(--blue-deep);}
+.tagline{text-align:center;color:var(--ink-soft);margin:8px 0 26px;font-size:14px;}
+.mode-block{display:flex;flex-direction:column;gap:12px;}
+.mode-btn{
+  border:none;cursor:pointer;padding:16px;border-radius:14px;font-size:16px;font-weight:600;
+  background:var(--panel-2);color:var(--ink);transition:.18s;box-shadow:var(--shadow-sm);
+}
+.mode-btn:hover{transform:translateY(-2px);}
+.mode-btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;}
+.online-panel{margin-top:18px;background:var(--panel-2);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink-soft);}
+.field input,.online-row input{
+  border:1px solid var(--line);background:var(--panel);border-radius:10px;
+  padding:10px 12px;font-size:15px;color:var(--ink);outline:none;
+}
+.field input:focus,.online-row input:focus{border-color:var(--blue-deep);}
+.online-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.online-row input{flex:1;min-width:80px;text-transform:uppercase;}
+.divider{color:var(--ink-soft);font-size:13px;}
+.mini-btn{
+  border:none;cursor:pointer;background:var(--teal);color:#fff;font-weight:600;
+  padding:10px 16px;border-radius:10px;font-size:14px;transition:.15s;
+}
+.mini-btn:hover{filter:brightness(1.05);}
+.mini-btn.alt{background:var(--blue-deep);}
+.online-msg{font-size:13px;color:var(--danger);min-height:18px;margin:0;}
+.rules{margin-top:22px;font-size:13px;color:var(--ink-soft);}
+.rules summary{cursor:pointer;color:var(--blue-deep);font-weight:600;}
+.rules ul{margin:10px 0 0;padding-left:18px;line-height:1.7;}
+
+/* ---------- 游戏 ---------- */
+#game{justify-content:flex-start;gap:14px;max-width:760px;width:100%;margin:0 auto;}
+#topbar{
+  width:100%;display:flex;align-items:center;gap:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:10px 16px;box-shadow:var(--shadow-sm);
+}
+.mode-label{font-weight:700;color:var(--blue-deep);}
+.room-info{font-size:13px;color:var(--ink-soft);}
+.room-info b{color:var(--ink);letter-spacing:2px;}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--ink-soft);margin-left:auto;}
+.status-dot.on{background:var(--teal);}
+.status-dot.off{background:var(--danger);}
+.quit-btn{border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:13px;}
+.quit-btn:hover{color:var(--danger);}
+
+.player-panel{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow-sm);
+}
+.player-panel .ph{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:var(--blue);color:#fff;}
+.avatar.me{background:var(--teal);}
+.avatar.opp{background:var(--rose);}
+.pname{font-weight:700;}
+/* 手掌 + 真实手指（输掉的指会掉落，留下红色断口） */
+.hand-wrap{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.hand-svg{width:66px;height:84px;display:block;overflow:visible;}
+.hand-svg .finger{transform-box:fill-box;transform-origin:50% 100%;}
+.hand-svg .nail{fill:#f7e3cf;opacity:.85;}
+.hand-svg .stump{fill:var(--danger);stroke:#b06a6a;stroke-width:1;}
+/* 刚掉落的那根手指：从根部被掰断、旋转坠下 */
+@keyframes fingerDrop{
+  0%{transform:translateY(0) rotate(0);opacity:1;}
+  25%{transform:translateY(4px) rotate(-10deg);}
+  100%{transform:translateY(80px) rotate(46deg);opacity:0;}
+}
+.hand-svg .finger.dropping{animation:fingerDrop .7s cubic-bezier(.4,0,.7,1) forwards;}
+/* 掉指瞬间整只手抖动、泛红 */
+.hand-svg.hurt{animation:handShake .5s;}
+@keyframes handShake{
+  0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}
+  50%{transform:translateX(5px);}75%{transform:translateX(-3px);}
+}
+.fcount{font-size:13px;color:var(--ink-soft);font-weight:700;}
+.fcount b{color:var(--ink);}
+.turn-badge{font-size:11px;background:var(--gold);color:#5a4a25;padding:2px 8px;border-radius:20px;font-weight:700;}
+
+.cards{display:flex;gap:10px;flex-wrap:wrap;perspective:1000px;padding:2px 0;}
+/* 真实扑克牌 */
+.card{
+  width:58px;height:82px;border-radius:9px;background:linear-gradient(160deg,#fff,#f4efe4);
+  border:1px solid #e5ddd0;box-shadow:0 5px 12px rgba(74,70,64,.16);
+  position:relative;color:#333;font-family:"Georgia","Times New Roman",serif;
+  transform-origin:center;
+}
+.card .corner{position:absolute;font-size:13px;font-weight:700;line-height:1.05;
+  display:flex;flex-direction:column;align-items:center;}
+.card .corner.tl{top:5px;left:6px;}
+.card .corner.br{bottom:5px;right:6px;transform:rotate(180deg);}
+.card .center-pip{position:absolute;inset:0;display:grid;place-items:center;font-size:32px;}
+.card.red{color:#c0504d;}
+.card.black{color:#3a3a3a;}
+.card.back{
+  background:repeating-linear-gradient(45deg,#9bb9cc,#9bb9cc 7px,#86a8bd 7px,#86a8bd 14px);
+  border-color:#7e9fb3;
+}
+.card.back::after{content:"";position:absolute;inset:6px;border:1.5px solid rgba(255,255,255,.55);
+  border-radius:5px;}
+.card.small{width:46px;height:66px;}
+.card.small .center-pip{font-size:25px;}
+.card.small .corner{font-size:11px;}
+.card.dim{opacity:.45;}
+/* 牌堆（中央） */
+.deck{width:22px;height:30px;border-radius:5px;display:inline-block;vertical-align:middle;
+  background:repeating-linear-gradient(45deg,#9bb9cc,#9bb9cc 4px,#86a8bd 4px,#86a8bd 8px);
+  border:1px solid #7e9fb3;
+  box-shadow:2px 2px 0 #86a8bd,4px 4px 0 #a9c7db,6px 6px 6px rgba(74,70,64,.12);}
+.total{
+  margin-top:10px;font-size:13px;color:var(--ink-soft);
+}
+.total b{color:var(--ink);font-size:15px;}
+
+.center{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-sm);
+}
+.pool{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);}
+.pool .pcounts{display:flex;gap:5px;flex-wrap:wrap;}
+.pool .pc{width:22px;height:30px;border-radius:6px;background:var(--panel-2);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:12px;color:var(--ink-soft);}
+.turn-info{font-weight:700;color:var(--blue-deep);font-size:15px;text-align:center;}
+.turn-info.over{color:var(--danger);}
+.log{
+  max-height:120px;overflow:auto;font-size:12.5px;color:var(--ink-soft);line-height:1.7;
+  border-top:1px dashed var(--line);padding-top:8px;
+}
+.log .me{color:var(--teal);}
+.log .sys{color:var(--ink);font-weight:600;}
+
+.actions{width:100%;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.btn{
+  border:none;cursor:pointer;padding:14px 22px;border-radius:14px;font-size:16px;font-weight:700;
+  background:var(--panel-2);color:var(--ink);box-shadow:var(--shadow-sm);transition:.15s;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn.hit{background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;}
+.btn.stay{background:linear-gradient(135deg,var(--teal),#6f9c8c);color:#fff;}
+.btn.next{background:linear-gradient(135deg,var(--gold),#c9aa6a);color:#5a4a25;}
+.btn.restart{background:linear-gradient(135deg,var(--rose),#b07f7f);color:#fff;}
+
+/* 王牌卡区域 */
+.trumps{width:100%;margin-top:6px;}
+.trumps .tt{font-size:12px;color:var(--ink-soft);margin-bottom:6px;}
+.trump-row{display:flex;gap:8px;flex-wrap:wrap;}
+.trump{
+  border:1.5px solid var(--line);background:var(--panel);border-radius:12px;
+  padding:8px 12px;cursor:pointer;min-width:96px;transition:.15s;text-align:left;
+}
+.trump:hover:not(:disabled){border-color:var(--blue-deep);transform:translateY(-2px);}
+.trump:disabled{opacity:.4;cursor:not-allowed;}
+.trump .tn{font-weight:700;font-size:14px;color:var(--blue-deep);}
+.trump .td{font-size:11px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+
+/* 聊天 */
+.chat{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;box-shadow:var(--shadow-sm);}
+.chat-log{max-height:120px;overflow:auto;font-size:13px;line-height:1.6;margin-bottom:8px;}
+.chat-log .who{font-weight:700;color:var(--blue-deep);}
+.chat-input{display:flex;gap:8px;}
+.chat-input input{flex:1;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:9px 12px;font-size:14px;outline:none;color:var(--ink);}
+.chat-input input:focus{border-color:var(--blue-deep);}
+
+.win-banner{
+  width:100%;text-align:center;padding:18px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--gold),#e0c896);color:#5a4a25;font-weight:800;font-size:18px;
+  box-shadow:var(--shadow-sm);
+}
+@media (max-width:520px){
+  .card{width:48px;height:68px;}
+  .card .center-pip{font-size:26px;}
+  .card.small{width:40px;height:58px;}
+  .btn{padding:12px 16px;font-size:15px;}
+}
+
+/* ===== 动画 ===== */
+@keyframes dealFlip{
+  0%{opacity:0;transform:rotateY(-92deg) translateY(24px) scale(.82);}
+  55%{opacity:1;}
+  100%{opacity:1;transform:rotateY(0) translateY(0) scale(1);}
+}
+.card.new{animation:dealFlip .5s cubic-bezier(.2,.8,.3,1) both;backface-visibility:hidden;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.log div:last-child{animation:fadeIn .3s ease both;}
+.btn:active{transform:scale(.95);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.turn-info:not(.over){animation:pulse 1.8s ease-in-out infinite;}
+@keyframes bannerPop{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.win-banner{animation:bannerPop .42s cubic-bezier(.2,.8,.3,1) both;}
+.player-panel{animation:fadeIn .35s ease both;}
+/* 亮牌翻转（对手暗牌在本手结束翻开的那一下） */
+.card.reveal{animation:revealFlip .6s cubic-bezier(.2,.8,.3,1) both;backface-visibility:hidden;
+  box-shadow:0 0 0 2px var(--gold),0 8px 18px rgba(74,70,64,.22);}
+@keyframes revealFlip{
+  0%{opacity:.2;transform:rotateY(-100deg) translateY(-10px) scale(.85);}
+  60%{opacity:1;}
+  100%{opacity:1;transform:rotateY(0) translateY(0) scale(1);}
+}
+
+/* 本手结算说明（亮牌后显示双方点数对比与输因） */
+.round-result{margin:14px auto 4px;max-width:420px;background:linear-gradient(135deg,#fffdf8,#f3eee4);
+  border:1.5px solid var(--line);border-radius:16px;padding:14px 18px;box-shadow:var(--shadow-sm);
+  animation:fadeIn .4s ease both;text-align:center;}
+.round-result .res-tag{display:inline-block;font-weight:800;font-size:15px;letter-spacing:2px;
+  padding:4px 14px;border-radius:999px;margin-bottom:8px;}
+.round-result .res-tag.win{background:rgba(121,162,153,.18);color:var(--teal);border:1px solid var(--teal);}
+.round-result .res-tag.lose{background:rgba(198,89,86,.15);color:var(--danger);border:1px solid var(--danger);}
+.round-result .res-tag.draw{background:rgba(210,180,120,.2);color:var(--gold-deep);border:1px solid var(--gold);}
+.round-result .res-compare{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.round-result .res-compare b{font-size:22px;}
+.round-result .res-compare b.good{color:var(--teal);}
+.round-result .res-compare b.bad{color:var(--danger);}
+.round-result .res-target{font-size:13px;color:var(--ink-soft);font-weight:600;}
+.round-result .res-why{font-size:14px;color:var(--ink-soft);}
+
+/* 亮牌后输/赢双方面板高亮 */
+.player-panel.panel-win{box-shadow:0 0 0 2px var(--teal),0 10px 24px rgba(121,162,153,.25);border-color:var(--teal);}
+.player-panel.panel-lose{box-shadow:0 0 0 2px var(--danger),0 10px 24px rgba(198,89,86,.22);border-color:var(--danger);}
+
+/* 屏幕震动（自己掉手指时） */
+@keyframes screenShake{
+  0%,100%{transform:translate(0,0);}
+  20%{transform:translate(-7px,3px);}40%{transform:translate(7px,-3px);}
+  60%{transform:translate(-5px,2px);}80%{transform:translate(5px,-2px);}
+}
+#game.shake{animation:screenShake .5s;}
+
+/* 浮层提示（掉手指 / 胜负） */
+.toast{
+  position:fixed;left:50%;top:16%;transform:translateX(-50%);z-index:60;
+  padding:16px 28px;border-radius:16px;font-weight:800;font-size:19px;
+  box-shadow:var(--shadow);text-align:center;max-width:90vw;
+  animation:toastPop .5s cubic-bezier(.2,.8,.3,1) both;
+}
+.toast.hidden{display:none;}
+.toast.lose{background:linear-gradient(135deg,#d98a8a,#c06060);color:#fff;}
+.toast.gain{background:linear-gradient(135deg,var(--teal),#6f9c8c);color:#fff;}
+.toast.draw{background:linear-gradient(135deg,var(--gold),#c9aa6a);color:#5a4a25;}
+@keyframes toastPop{from{opacity:0;transform:translateX(-50%) scale(.8);}to{opacity:1;transform:translateX(-50%) scale(1);}}
+
+/* 王牌卡特效浮层 */
+.trump-fx{position:fixed;inset:0;z-index:55;display:none;align-items:center;justify-content:center;
+  pointer-events:none;}
+.trump-fx.show{display:flex;}
+.trump-backdrop{position:absolute;inset:0;background:rgba(36,33,30,.34);
+  backdrop-filter:blur(2px);opacity:0;transition:opacity .35s ease;}
+.trump-fx.show .trump-backdrop{opacity:1;}
+.trump-ring{position:absolute;width:120px;height:120px;border-radius:50%;
+  border:3px solid var(--gold);opacity:0;}
+.trump-fx.show .trump-ring{animation:ringOut .7s ease-out forwards;}
+.trump-fx.show .trump-ring.r2{animation-delay:.12s;border-color:var(--teal);}
+@keyframes ringOut{
+  0%{transform:scale(.4);opacity:.9;}
+  100%{transform:scale(2.6);opacity:0;}
+}
+.trump-label{position:relative;text-align:center;z-index:2;
+  background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;
+  padding:18px 32px;border-radius:18px;box-shadow:0 12px 34px rgba(74,70,64,.3);
+  min-width:260px;max-width:340px;opacity:0;}
+.trump-fx.show .trump-label{animation:trumpPop 1.4s cubic-bezier(.2,.8,.3,1) forwards;}
+@keyframes trumpPop{
+  0%{opacity:0;transform:scale(.6) rotate(-6deg);}
+  12%{opacity:1;transform:scale(1.06) rotate(2deg);}
+  22%{transform:scale(1) rotate(0);}
+  82%{opacity:1;transform:scale(1);}
+  100%{opacity:0;transform:scale(1.02);}
+}
+.trump-label .tl-who{display:block;font-size:13px;font-weight:600;letter-spacing:2px;opacity:.92;margin-bottom:6px;}
+.trump-label .tl-name{display:block;font-size:28px;font-weight:800;letter-spacing:2px;}
+.trump-label .tl-sub{display:block;font-size:12px;opacity:.85;margin-top:4px;letter-spacing:3px;}
+.trump-label .tl-desc{display:block;font-size:14px;line-height:1.6;opacity:.96;margin-top:10px;}
+/* 王牌粒子 */
+.trump-fx .spark{position:absolute;width:10px;height:10px;border-radius:50%;opacity:0;
+  background:var(--gold);}
+.trump-fx.show .spark{animation:sparkFly .9s ease-out forwards;}
+@keyframes sparkFly{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3);}
+}
+
+/* ===== 开场说明弹窗 ===== */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(74,70,64,.35);backdrop-filter:blur(4px);z-index:50;padding:20px;}
+.modal.hidden{display:none;}
+.modal-card{width:min(460px,94vw);background:var(--panel);border:1px solid var(--line);
+  border-radius:22px;padding:28px 26px;box-shadow:var(--shadow);text-align:center;
+  animation:bannerPop .35s cubic-bezier(.2,.8,.3,1) both;}
+.modal-card h2{margin:0 0 4px;font-size:26px;color:var(--blue-deep);}
+.modal-sub{color:var(--ink-soft);font-size:13px;margin:0 0 18px;}
+.modal-rules{text-align:left;font-size:13.5px;color:var(--ink);line-height:1.85;
+  margin:0 0 22px;padding-left:20px;}
+.modal-rules b{color:var(--blue-deep);}
